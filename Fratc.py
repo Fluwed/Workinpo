@@ -5,7 +5,7 @@ _                                      =   (
                              :c   and Y(V*V+B,B,  c
                                -1)if(abs(V)<6)else
                (              2+c-4*abs(V)**-0.4)/i
-                 )  ;v,      x=700,400;C=range(v*x
+                 )  ;v,      x=7200,4800;C=range(v*x
                   );import  struct;P=struct.pack;M,\
             j  ='<QIIHHHH',open('M.bmp','wb').write
 for X in j('BM'+P(M,v*x*3+26,26,12,v,x,1,24))or C:
