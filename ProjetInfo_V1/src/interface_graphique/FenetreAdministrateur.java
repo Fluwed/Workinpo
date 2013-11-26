@@ -60,6 +60,7 @@ public class FenetreAdministrateur extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 		setContentPane(buildContentPane());
 		setVisible(true);
+		setAlwaysOnTop(true);//Toujours au premiers plan
 	}
 	
 	/**
@@ -76,6 +77,7 @@ public class FenetreAdministrateur extends JFrame {
 		panelBouton.setLayout(new FlowLayout());
 		panelInfo_collecte.setLayout(new GridLayout(3,1));
 		
+		rootPane.setDefaultButton(collecter);
 		panelBouton.add(collecter);
 		panelInfo_collecte.add(etat_collecte);
 		panelInfo_collecte.add(nb_article_initial);

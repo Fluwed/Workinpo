@@ -24,8 +24,7 @@ public class JDBCConnection {
 		Class.forName("com.mysql.jdbc.Driver");
 		// Setup the connection with the DB
 		conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root"); // Nom de la BDD dans phpmyadmin
-		Statement statement = conn.createStatement();
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS utilisateursalice (login VARCHAR(256) PRIMARY KEY, identifiant VARCHAR(256), mdp VARCHAR(256))");
+		
 		String SELECT_LOGIN = "SELECT login FROM utilisateursalice"; //
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(SELECT_LOGIN); //RS se parcourt itérativement (stockage des logins de la table)

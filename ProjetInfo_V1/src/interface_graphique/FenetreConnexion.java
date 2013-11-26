@@ -3,14 +3,20 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+
+
+
 
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -23,6 +29,7 @@ public class FenetreConnexion extends JDialog{
 
 	private static final long serialVersionUID = 1L;
 	
+	private JButton bouton;
 	private JTextField loginText;
 	private JPasswordField mdpText;
 	private JLabel message;
@@ -50,6 +57,7 @@ public class FenetreConnexion extends JDialog{
 		setResizable(false);//On interdit le redimensionnement
 		setContentPane(buildContentPane());
 		setAlwaysOnTop(true);//Toujours au premiers plan
+		
 	}
 	
 	/**
@@ -61,15 +69,18 @@ public class FenetreConnexion extends JDialog{
 		JPanel panelgeneral = new JPanel();
 		JPanel panelid = new JPanel();
 		JPanel panelmessage = new JPanel();
+		JRootPane rootPane = getRootPane(); // utilité?
 		
 		panelgeneral.setLayout(new BorderLayout());
 		panelid.setLayout(new GridLayout(3,2,5,5));
 
+		bouton = new JButton("test");
 		loginText = new JTextField();
 		Font police = new Font("Arial", Font.BOLD, 14);
 		loginText.setFont(police);
 		mdpText = new JPasswordField();
 		connexion = new JButton(new GetActionConnexion(this,"GO"));//this correspond à la FenetreConnexion
+		rootPane.setDefaultButton(connexion); //Rend le bouton connexion accessible via la touche Entree
 		message = new JLabel();
 		nouvelAlice = new JButton(new GetActionConnexion(this,"New User"));
 		
@@ -126,13 +137,13 @@ public class FenetreConnexion extends JDialog{
 			}
 		});
 		
-		/*
-		try{
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {}
 		
-		System.exit(0);
-		*/
+//		try{
+//			Thread.sleep(10000);
+//		} catch (InterruptedException e) {}
+//		
+		//System.exit(0);
+		
 	}
 
 }
