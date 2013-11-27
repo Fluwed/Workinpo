@@ -77,7 +77,7 @@ public class FenetreAdministrateur extends JFrame {
 		panelBouton.setLayout(new FlowLayout());
 		panelInfo_collecte.setLayout(new GridLayout(3,1));
 		
-		rootPane.setDefaultButton(collecter);
+		rootPane.setDefaultButton(collecter); //Rend le bouton connexion accessible via la touche Entree
 		panelBouton.add(collecter);
 		panelInfo_collecte.add(etat_collecte);
 		panelInfo_collecte.add(nb_article_initial);

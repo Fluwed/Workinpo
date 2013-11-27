@@ -65,7 +65,12 @@ public class GetActionConnexion extends AbstractAction{
 
 		else if(source == fConnexion.getNouvelAlice()){
 			System.out.println("Vous venez de cliquer sur nouvel utilisateur");
-			//bdd_user.add_userBDD(haha); //Nouvelle fenêtre ?
+			try {
+				new FenetreNewUser();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -108,7 +113,7 @@ public class GetActionConnexion extends AbstractAction{
 		int numIncrement = -1;
 
 		Iterator<String> itLogin = listLogin.iterator();
-		while(itLogin.hasNext()){
+		while(itLogin.hasNext() && cestAliceReturn == false){
 			numIncrement+=1;
 			String log_table = itLogin.next();
 			System.out.println("Login table:"+log_table);
@@ -123,7 +128,7 @@ public class GetActionConnexion extends AbstractAction{
 				if((mdp_table).equals(mdp_lu)){
 					System.out.println("Mdp reconnu");
 					cestAliceReturn = true;
-					//return true;
+					return true;
 				}
 				else{
 					System.out.println("Login Ok mais Mdp non trouvé dans la BDD");
@@ -132,13 +137,12 @@ public class GetActionConnexion extends AbstractAction{
 				}
 			}
 			else {
-				System.out.println("Mauvais Login je ne testerai meme pas le mdp! NIQUE TOUT");
+			//	System.out.println("Mauvais Login je ne testerai meme pas le mdp! NIQUE TOUT");
 				cestAliceReturn = false;
-				//return false;
 			}
 		}
 
-	conn.close();
+	//conn.close();
 	rs_log.close();
 	rs_mdp.close();
 	
@@ -171,8 +175,12 @@ private boolean authentification(String login_lu, String mdp_lu) throws SQLExcep
 			//Une Alice s'authentifie:
 			else if(cestAlice(login_lu,mdp_lu)==true){
 				new FenetrePrincipale();
-				System.out.println("Utilisateur Alice authentifié");
+				System.out.println("Utilisateur "+login_lu +" authentifié");
 				test_id = true;
+				
+				new FenetrePrincipale();
+				fConnexion.dispose(); // fermer la fenetre de connexion
+				
 			}
 
 			//C'est ni Alice ni Bob

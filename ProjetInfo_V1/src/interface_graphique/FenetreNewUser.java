@@ -22,26 +22,27 @@ import javax.swing.SwingUtilities;
 
 /**
  * Fenetre de connexion à l'application 
- * @author Katelyne then Fluwed
- * Cette fenêtre permet à l'utilisateur (Bob ou Alice) de s'authentifier pour acceder à son profil
+ * @author Fluwed
+ * Cette fenêtre permet à l'utilisateurAlice de senregistrer
  */
-public class FenetreConnexion extends JDialog{
+public class FenetreNewUser extends JDialog{
 
 	private static final long serialVersionUID = 1L;
 	
-
-	private JTextField loginText;
-	private JPasswordField mdpText;
-	private JLabel message;
-	private JButton connexion;
-	private JButton nouvelAlice;
+	
+	private JTextField newLogin;
+	private JPasswordField newMdp1;
+	private JPasswordField newMdp2;
+	private JLabel message1;
+	private JLabel message2;
+	private JButton enregistrer;
+	private JButton annuler;
 	
 	/**
 	 * Constructeur de la classe FenetreConnexion
 	 * @throws SQLException 
 	 */
-	public FenetreConnexion() throws SQLException{
-		super();
+	public FenetreNewUser() throws SQLException{
 		build();//Initialisation des paramètres de la fenêtre
 	}
 	
@@ -50,11 +51,11 @@ public class FenetreConnexion extends JDialog{
 	 * @throws SQLException 
 	 */
 	public void build() throws SQLException{
-		setSize(250,200);//Taille de la fenêtre
-		setTitle("Connexion");//Titre de la fenêtre
+		setSize(300,220);//Taille de la fenêtre
+		setTitle("Nouvel Utilisateur");//Titre de la fenêtre
 		setVisible(true);//Fenêtre visible car True
 		setLocationRelativeTo(null);//Placement de la fenêtre au centre de l'écran
-		setResizable(false);//On interdit le redimensionnement
+		setResizable(true);//On interdit le redimensionnement
 		setContentPane(buildContentPane());
 		setAlwaysOnTop(true);//Toujours au premiers plan
 		
@@ -72,28 +73,36 @@ public class FenetreConnexion extends JDialog{
 		JRootPane rootPane = getRootPane(); // utilité?
 		
 		panelgeneral.setLayout(new BorderLayout());
-		panelid.setLayout(new GridLayout(3,2,5,5));
+		panelid.setLayout(new GridLayout(4,2,5,5));
 
-
-		loginText = new JTextField();
+		
+		newLogin = new JTextField();
 		Font police = new Font("Arial", Font.BOLD, 14);
-		loginText.setFont(police);
-		mdpText = new JPasswordField();
-		connexion = new JButton(new GetActionConnexion(this,"GO"));//this correspond à la FenetreConnexion
-		rootPane.setDefaultButton(connexion); //Rend le bouton connexion accessible via la touche Entree
-		message = new JLabel();
-		nouvelAlice = new JButton(new GetActionConnexion(this,"New User"));
+		newLogin.setFont(police);
+		newMdp1 = new JPasswordField();
+		newMdp2 = new JPasswordField();
+		enregistrer = new JButton(new GetActionNewUser(this,"enregistrer")); //this correspond à la FenetreNewUser
+		rootPane.setDefaultButton(enregistrer); //Rend le bouton connexion accessible via la touche Entree
+		message1 = new JLabel();
+		message2 = new JLabel();
+		annuler = new JButton(new GetActionNewUser(this,"annuler"));
 		
-		panelid.add(new JLabel("                       Login"));
-		panelid.add(loginText);
-		panelid.add(new JLabel("        Mot de passe"));
-		panelid.add(mdpText);
-		panelid.add(connexion);
-		panelid.add(nouvelAlice);
+		panelid.add(new JLabel("                                Login"));
+		panelid.add(newLogin);
+		panelid.add(new JLabel("                 Mot de passe"));
+		panelid.add(newMdp1);
+		panelid.add(new JLabel(" Retaper Mot de passe"));
+		panelid.add(newMdp2);
+		panelid.add(message1);
+		panelid.add(message2);
 		
-		panelmessage.add(message);
+		panelmessage.add(annuler);
+		panelmessage.add(enregistrer);
 		
-		panelgeneral.add(panelid,BorderLayout.NORTH);
+		
+		
+		panelgeneral.add(panelid,BorderLayout.CENTER);
+		//panelgeneral.add(message,BorderLayout.NORTH);
 		panelgeneral.add(panelmessage,BorderLayout.SOUTH);
 
 		return panelgeneral;
@@ -105,21 +114,26 @@ public class FenetreConnexion extends JDialog{
 	 */
 	
 	public JTextField getLogin(){
-		return loginText;
+		return newLogin;
 	}
-	public JTextField getMdp(){
-		return mdpText;
+	public JTextField getMdp1(){
+		return newMdp1;
 	}
-	public JLabel getMessage(){
-		return message;
+	public JTextField getMdp2(){
+		return newMdp2;
+	}
+	public JLabel getMessage1(){
+		return message1;
+	}
+	public JLabel getMessage2(){
+		return message2;
+	}
+	public JButton getEnregistrer(){
+		return enregistrer;
 	}
 	
-	public JButton getNouvelAlice(){
-		return nouvelAlice;
-	}
-	
-	public JButton getButtonConnexion(){
-		return connexion;
+	public JButton getannuler(){
+		return annuler;
 	}
 
 	
@@ -127,9 +141,9 @@ public class FenetreConnexion extends JDialog{
 		
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
-				FenetreConnexion fTest = null;
+				FenetreNewUser fTest = null;
 				try {
-					fTest = new FenetreConnexion();
+					fTest = new FenetreNewUser();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
