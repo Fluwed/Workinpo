@@ -14,6 +14,8 @@ import java.util.NoSuchElementException;
 
 import javax.swing.AbstractAction;
 
+import BDD_Users.JDBCConnection;
+import BDD_Users.UtilisateursAlice;
 
 /**
  * Class permettant d'effectuer des actions sur les boutons des différentes fenêtres

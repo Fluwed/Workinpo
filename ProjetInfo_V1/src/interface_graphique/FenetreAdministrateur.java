@@ -1,6 +1,5 @@
 package interface_graphique;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -23,15 +22,10 @@ public class FenetreAdministrateur extends JFrame {
 	private JLabel etat_collecte = new JLabel();
 	private JLabel nb_article_initial = new JLabel();
 	private JLabel nb_article_final = new JLabel();
-	private JButton fermer = new JButton(new GetActionAdministrateur(this,"Fermer"));
 	
 	//Définition des get pour accès dans GetActionAdministrateur
 	public JButton getCollecter() {
 		return collecter;
-	}
-	
-	public JButton getFermer(){
-		return fermer;		
 	}
 
 	public JLabel getEtat_collecte() {
@@ -62,7 +56,7 @@ public class FenetreAdministrateur extends JFrame {
 		setTitle("CheshireRSS_modeAdmin");//Nom application
 		setSize(500,100); //Taille fenêtre (horizontal,vertical)
 		setLocationRelativeTo(null); //Position
-		setResizable(false); //On ne permet pas le redimensionnement de la fenêtre
+		setResizable(true); //On permet le redimensionnement de la fenêtre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 		setContentPane(buildContentPane());
 		setVisible(true);
@@ -77,26 +71,21 @@ public class FenetreAdministrateur extends JFrame {
 	 */
 	private JPanel buildContentPane() {
 		
-		JPanel panelgeneral = new JPanel();
 		JPanel panelBouton = new JPanel();
-		JPanel panelinfo = new JPanel();
+		JPanel panelInfo_collecte = new JPanel();
 		
-		panelgeneral.setLayout(new BorderLayout());
 		panelBouton.setLayout(new FlowLayout());
-		panelinfo.setLayout(new FlowLayout());
+		panelInfo_collecte.setLayout(new GridLayout(3,1));
 		
-		rootPane.setDefaultButton(collecter);//Rend le bouton connexion accessible via la touche Entree
-		panelBouton.add(fermer);
+		rootPane.setDefaultButton(collecter); //Rend le bouton connexion accessible via la touche Entree
 		panelBouton.add(collecter);
-		panelinfo.add(etat_collecte);
-		panelinfo.add(nb_article_initial);
-		panelinfo.add(nb_article_final);
+		panelInfo_collecte.add(etat_collecte);
+		panelInfo_collecte.add(nb_article_initial);
+		panelInfo_collecte.add(nb_article_final);
 		
-	
-		panelgeneral.add(panelBouton,BorderLayout.NORTH);
-		panelgeneral.add(panelinfo,BorderLayout.SOUTH);
+		panelBouton.add(panelInfo_collecte);
 		
-		return panelgeneral;
+		return panelBouton;
 	}
 
 	
@@ -104,14 +93,14 @@ public class FenetreAdministrateur extends JFrame {
 		return this;
 	}
 	
-	public static void main(String[] args){
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run(){
-				//On crée une nouvelle instance de notre JDialog
-				FenetreAdministrateur fAdmin = new FenetreAdministrateur();
-				fAdmin.setVisible(true);//On la rend visible
-			}
-		});
-	}
+//	public static void main(String[] args){
+//		SwingUtilities.invokeLater(new Runnable(){
+//			public void run(){
+//				//On crée une nouvelle instance de notre JDialog
+//				FenetreAdministrateur fAdmin = new FenetreAdministrateur();
+//				fAdmin.setVisible(true);//On la rend visible
+//			}
+//		});
+//	}
 
 }

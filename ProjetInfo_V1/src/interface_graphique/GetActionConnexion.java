@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 
+import BDD_Users.JDBCConnection;
+import BDD_Users.UtilisateursAlice;
 
 /**
  * Class permettant d'effectuer des actions sur les boutons des différentes fenêtres
@@ -175,6 +177,8 @@ private boolean authentification(String login_lu, String mdp_lu) throws SQLExcep
 				new FenetrePrincipale();
 				System.out.println("Utilisateur "+login_lu +" authentifié");
 				test_id = true;
+				
+				new FenetrePrincipale();
 				fConnexion.dispose(); // fermer la fenetre de connexion
 				
 			}

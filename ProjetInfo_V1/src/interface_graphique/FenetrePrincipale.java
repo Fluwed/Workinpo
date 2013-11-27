@@ -30,7 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import Rss.JDBC;
+import BDD_Flux.JDBC;
 
 public class FenetrePrincipale extends JFrame {
 	
