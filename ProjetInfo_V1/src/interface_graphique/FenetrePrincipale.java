@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,6 +11,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,9 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
-import BDD_Flux.JDBC;
+import Rss.JDBC;
 
 public class FenetrePrincipale extends JFrame {
 	
@@ -179,14 +177,17 @@ public class FenetrePrincipale extends JFrame {
 		
 		List <String> articles = new ArrayList <String> ();
 		String texte = "";
+		String date = "";
 		Connection conn = base.ConnexionDB();
 		Statement stmt = conn.createStatement();
 		String SELECT_ARTICLE = "SELECT Titre FROM "+nomFlux+" ";
 		ResultSet rs = stmt.executeQuery(SELECT_ARTICLE);
 		while(rs.next()){
 			texte = rs.getString("Titre");
+		//	date = rs.getString("Date");
 			if(!texte.equals(null)){
 				articles.add(texte);
+			//	articles.add(date);
 			}
 		}
 		return articles;
@@ -235,37 +236,39 @@ public class FenetrePrincipale extends JFrame {
 	    }
 	
 	public void buildPanelArticles(String nomTable) throws ClassNotFoundException, SQLException{
-		
+		  
         panel.setLayout(new GridLayout(get_nbArticle(nomTable), 1, 0, 2));
 
         //Remplissage du panel des articles
         List <String> listeTitres = afficheArticle(nomTable);
         Iterator<String> it = listeTitres.iterator();
 
-		while(it.hasNext()){
-				
-			JPanel petitPanel = new JPanel();
-			petitPanel.setBackground(Color.LIGHT_GRAY);
-			JLabel label_url = new JLabel();
-			label_url.setText(it.next());
-			label_url.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			
-			String plainText ="SELECT Lien FROM "+nomTable+" WHERE Titre=\""+label_url.getText().replaceAll("\\<.*?\\>", "")+"\"";
-			//System.out.println(plainText);
-			Connection conn = base.ConnexionDB();
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(plainText);
-			rs.next();
-			String url = rs.getString("Lien"); 
-			//System.out.println(url);
-			
-			addListener(label_url, url, nomTable);
-			petitPanel.add(label_url);
-			panel.add(petitPanel);
-			conn.close();			
-		}
-		
-	}
+  while(it.hasNext()){
+    
+   JPanel petitPanel = new JPanel();
+   petitPanel.setBackground(Color.LIGHT_GRAY);
+   JLabel label_url = new JLabel();
+   label_url.setText(it.next());
+   label_url.setCursor(new Cursor(Cursor.HAND_CURSOR));
+   
+   Connection conn = base.ConnexionDB();
+   String plainText ="SELECT Lien FROM "+nomTable+" WHERE Titre=? ";
+   //System.out.println(plainText);
+   PreparedStatement pstmt = conn.prepareStatement(plainText);
+   pstmt.setString(1, label_url.getText());
+   ResultSet rs = pstmt.executeQuery();
+   rs.next();
+   String url = rs.getString("Lien"); 
+   //System.out.println(url);
+   
+   
+   addListener(label_url, url, nomTable);
+   petitPanel.add(label_url);
+   panel.add(petitPanel);
+   conn.close();   
+  }
+  
+ }
 	
 	public void buildPanelFlux(){
         setContentPane(contenu);

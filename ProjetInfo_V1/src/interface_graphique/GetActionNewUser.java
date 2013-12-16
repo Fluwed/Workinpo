@@ -10,12 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-
 import javax.swing.AbstractAction;
 
-import BDD_Users.JDBCConnection;
-import BDD_Users.UtilisateursAlice;
 
 /**
  * Class permettant d'effectuer des actions sur les boutons des différentes fenêtres

@@ -59,8 +59,9 @@ public class GetActionPrincipale extends AbstractAction {
 		else if(source == fPrincipale.getMinutes()){
 			System.out.println("Vous venez de cliquer sur Le 20 Minutes");
 				try {
-					FenetrePrincipale fp = new FenetrePrincipale("Minutes");
 					fPrincipale.dispose();
+					FenetrePrincipale fp = new FenetrePrincipale("Minutes");
+					
 					fp.setVisible(true);
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block

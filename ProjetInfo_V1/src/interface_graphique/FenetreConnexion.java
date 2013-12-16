@@ -1,18 +1,15 @@
 package interface_graphique;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-
-
-
-
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -21,112 +18,129 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 /**
- * Fenetre de connexion à l'application 
- * @author Katelyne then Fluwed
- * Cette fenêtre permet à l'utilisateur (Bob ou Alice) de s'authentifier pour acceder à son profil
+ * Fenetre de connexion à l'application
+ * 
+ * @author Katelyne then Fluwed Cette fenêtre permet à l'utilisateur (Bob ou
+ *         Alice) de s'authentifier pour acceder à son profil
  */
-public class FenetreConnexion extends JDialog{
+public class FenetreConnexion extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
 
 	private JTextField loginText;
 	private JPasswordField mdpText;
 	private JLabel message;
 	private JButton connexion;
 	private JButton nouvelAlice;
-	
+
 	/**
 	 * Constructeur de la classe FenetreConnexion
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
-	public FenetreConnexion() throws SQLException{
+	public FenetreConnexion() throws SQLException {
 		super();
-		build();//Initialisation des paramètres de la fenêtre
+		build();// Initialisation des paramètres de la fenêtre
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//		this.addWindowListener(new WindowAdapter() {
+//			@Override
+//			public void windowClosed(WindowEvent e) {
+//				System.exit(0);
+//			}
+//		});
 	}
-	
+
 	/**
 	 * Méthode de définition de la forme de la fenêtre de connexion
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
-	public void build() throws SQLException{
-		setSize(250,200);//Taille de la fenêtre
-		setTitle("Connexion");//Titre de la fenêtre
-		setVisible(true);//Fenêtre visible car True
-		setLocationRelativeTo(null);//Placement de la fenêtre au centre de l'écran
-		setResizable(false);//On interdit le redimensionnement
+	public void build() throws SQLException {
+		setSize(250, 200);// Taille de la fenêtre
+		setTitle("Connexion");// Titre de la fenêtre
+		setVisible(true);// Fenêtre visible car True
+		setLocationRelativeTo(null);// Placement de la fenêtre au centre de
+									// l'écran
+		setResizable(false);// On interdit le redimensionnement
 		setContentPane(buildContentPane());
-		setAlwaysOnTop(true);//Toujours au premiers plan
-		
+		setAlwaysOnTop(true);// Toujours au premiers plan
+
 	}
-	
+
 	/**
 	 * Méthode pour ajouter les composants de la fenêtre
+	 * 
 	 * @return
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	private Container buildContentPane() throws SQLException {
 		JPanel panelgeneral = new JPanel();
 		JPanel panelid = new JPanel();
 		JPanel panelmessage = new JPanel();
 		JRootPane rootPane = getRootPane(); // utilité?
-		
-		panelgeneral.setLayout(new BorderLayout());
-		panelid.setLayout(new GridLayout(3,2,5,5));
 
+		panelgeneral.setLayout(new BorderLayout());
+		panelid.setLayout(new GridLayout(3, 2, 5, 5));
 
 		loginText = new JTextField();
 		Font police = new Font("Arial", Font.BOLD, 14);
 		loginText.setFont(police);
 		mdpText = new JPasswordField();
-		connexion = new JButton(new GetActionConnexion(this,"GO"));//this correspond à la FenetreConnexion
-		rootPane.setDefaultButton(connexion); //Rend le bouton connexion accessible via la touche Entree
+		connexion = new JButton(new GetActionConnexion(this, "GO"));// this
+																	// correspond
+																	// à la
+																	// FenetreConnexion
+		rootPane.setDefaultButton(connexion); // Rend le bouton connexion
+												// accessible via la touche
+												// Entree
 		message = new JLabel();
-		nouvelAlice = new JButton(new GetActionConnexion(this,"New User"));
-		
+		nouvelAlice = new JButton(new GetActionConnexion(this, "New User"));
+
 		panelid.add(new JLabel("                       Login"));
 		panelid.add(loginText);
 		panelid.add(new JLabel("        Mot de passe"));
 		panelid.add(mdpText);
 		panelid.add(connexion);
 		panelid.add(nouvelAlice);
-		
+
 		panelmessage.add(message);
-		
-		panelgeneral.add(panelid,BorderLayout.NORTH);
-		panelgeneral.add(panelmessage,BorderLayout.SOUTH);
+
+		panelgeneral.add(panelid, BorderLayout.NORTH);
+		panelgeneral.add(panelmessage, BorderLayout.SOUTH);
 
 		return panelgeneral;
 	}
-	
+
 	/**
 	 * Methodes qui récupère le texte entré dans les JTextField
+	 * 
 	 * @return
 	 */
-	
-	public JTextField getLogin(){
+
+	public JTextField getLogin() {
 		return loginText;
 	}
-	public JTextField getMdp(){
+
+	public JTextField getMdp() {
 		return mdpText;
 	}
-	public JLabel getMessage(){
+
+	public JLabel getMessage() {
 		return message;
 	}
-	
-	public JButton getNouvelAlice(){
+
+	public JButton getNouvelAlice() {
 		return nouvelAlice;
 	}
-	
-	public JButton getButtonConnexion(){
+
+	public JButton getButtonConnexion() {
 		return connexion;
 	}
 
-	
 	public static void main(String[] args) {
-		
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run(){
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
 				FenetreConnexion fTest = null;
 				try {
 					fTest = new FenetreConnexion();
@@ -136,14 +150,13 @@ public class FenetreConnexion extends JDialog{
 				fTest.setVisible(true);
 			}
 		});
-		
-		
-//		try{
-//			Thread.sleep(10000);
-//		} catch (InterruptedException e) {}
-//		
-		//System.exit(0);
-		
+
+		// try{
+		// Thread.sleep(10000);
+		// } catch (InterruptedException e) {}
+		//
+		// System.exit(0);
+
 	}
 
 }

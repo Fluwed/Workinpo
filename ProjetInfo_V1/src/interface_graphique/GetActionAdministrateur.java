@@ -1,7 +1,7 @@
 package interface_graphique;
 
-import BDD_Flux.JDBC;
-import BDD_Flux.JDBCFlux;
+import Rss.JDBC;
+import Rss.JDBCFlux;
 
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
@@ -29,10 +29,10 @@ public class GetActionAdministrateur extends AbstractAction{
 	 */
 	public GetActionAdministrateur(FenetreAdministrateur fAdmin, String texte){
 		super(texte);//Appel du constructeur de la classe parente ici: AbstractAction
-			
+
 		this.fAdministrateur = fAdmin;
 	}
-	
+
 	/** 
 	 * Action effectuée lorsqu'on appuie sur le bouton. 
 	 * On va décrire dans cette fonction quel programme effectuer
@@ -40,59 +40,71 @@ public class GetActionAdministrateur extends AbstractAction{
 	 * @param ActionEvent e : evènement : clic sur le bouton
 	 */
 	public void actionPerformed(ActionEvent e){
+		JDBCFlux Flux = new JDBCFlux();
 		
 		Object source = e.getSource();
-		
+
 		if(source == fAdministrateur.getCollecter()){
-			
+
 			long time_fin=System.currentTimeMillis() +5000;
-	        
+
 			//Affichage du nombre initial d'articles
 			//Cet Affichage va se faire directement dans la fenêtre avant même qu'on ne clique sur Collecter
-	        afficherNbArticle("Nombre d'articles initial : ",fAdministrateur);
+			afficherNbArticle("Nombre d'articles initial : ",fAdministrateur);
 			
 			//Collecte de données de tous les flux
-	        while(System.currentTimeMillis() <= time_fin){
-	        	try {JDBCFlux.collecter();}
-	        	catch (Exception e1) {e1.printStackTrace();}
-	        }
-	        
-	        //Affichage du nombre final d'articles 
-	        afficherNbArticle("Nombre d'articles final : ",fAdministrateur);
+			while(System.currentTimeMillis() <= time_fin){
+				try {Flux.collecter();}
+				catch (Exception e1) {e1.printStackTrace();}
+			}
+			//Affichage du nombre final d'articles 
+			afficherNbArticle("Nombre d'articles final : ",fAdministrateur);
 			fAdministrateur.getEtat_collecte().setText("\n Collecte terminée ! \n");
 		}
-		
-		/*else if (source == fAdministrateur.getButtonDeconnexion()){
+
+		if(source == fAdministrateur.getFermer()){
+			fAdministrateur.dispose();
+			try {
+				new FenetreConnexion();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+
+	}
+
+	/*else if (source == fAdministrateur.getButtonDeconnexion()){
 			System.out.println("Vous venez de cliquer sur Deconnexion");
 		}*/		
-	}
-	
 
-	public static int get_nbArticle() throws SQLException, ClassNotFoundException{
-		Connection conn = base.ConnexionDB();
-		String [] nomTableFlux = {"LeMonde", "LeFigaro","Minutes","google","liberation","rue89","lesechos","equipe","Humanite","NYTimes"};
-		Statement stmt = conn.createStatement();
-		int nbArticle=0;
-		for(int i=0;i<nomTableFlux.length;i++){
-			String SELECT_ID =("SELECT * FROM "+nomTableFlux[i]+"");
-			ResultSet rs = stmt.executeQuery(SELECT_ID);
-			rs.last();
-			nbArticle += rs.getRow();
-			rs.beforeFirst();
-		}
-		return nbArticle;
-	}
 
-	public static void afficherNbArticle(String texte, FenetreAdministrateur f){
-		int nbArticle=0;
-		try {
-			nbArticle = get_nbArticle();
-    		String affichage = (texte+nbArticle+"\n");
-    		System.out.println(nbArticle);
-    		f.getNb_article_initial().setText(affichage);
-		} 
-		catch (ClassNotFoundException e2) {e2.printStackTrace();}
-		catch (SQLException e2) {e2.printStackTrace();}
+public static int get_nbArticle() throws SQLException, ClassNotFoundException{
+	Connection conn = base.ConnexionDB();
+	String [] nomTableFlux = {"LeMonde", "LeFigaro","Minutes","google","liberation","rue89","lesechos","equipe","Humanite","NYTimes"};
+	Statement stmt = conn.createStatement();
+	int nbArticle=0;
+	for(int i=0;i<nomTableFlux.length;i++){
+		String SELECT_ID =("SELECT * FROM "+nomTableFlux[i]+"");
+		ResultSet rs = stmt.executeQuery(SELECT_ID);
+		rs.last();
+		nbArticle += rs.getRow();
+		rs.beforeFirst();
 	}
-	
+	return nbArticle;
+}
+
+public static void afficherNbArticle(String texte, FenetreAdministrateur f){
+	int nbArticle=0;
+	try {
+		nbArticle = get_nbArticle();
+		String affichage = (texte+nbArticle+"\n");
+		System.out.println(nbArticle);
+		f.getNb_article_initial().setText(affichage);
+	} 
+	catch (ClassNotFoundException e2) {e2.printStackTrace();}
+	catch (SQLException e2) {e2.printStackTrace();}
+}
+
 }
